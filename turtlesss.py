@@ -4,18 +4,19 @@ import random
 import turtle as tur
 
 
+
 HALF_WIDTH, HALF_HEIGHT = 700 // 2, 600 // 2 
 COLORS = ['red', 'green', 'blue', 'orange', 'yellow', 'black', 'purple', 'pink', 'brown', 'cyan']
 
-# global variable  para ma track if the game is still running or not
-game_running = False
-
 def main():
-    global game_running
-    game_running = True  # Set the initial state of the game_running 
+    """
+    to  controls the flow of the turtle racing game.
+    and initializes the turtles, shuffles the colors, starts the race,
+    and prints the winner's color.
+    """
     racers = get_number_of_racers()
     if racers == 0:
-        turtle.bye()  # pra ma close ang graphic window if mag  cancels ang user
+        turtle.bye()  # Close the graphic window if the user cancels or enters 0
     else:
         init_turtle()
 
@@ -24,41 +25,22 @@ def main():
 
         winner = race(colors)
         print("The winner is the turtle with color:", winner)
-        game_running = False  # Set the game_running flag to False
 
-        time.sleep(2) 
+        time.sleep(2)
 
+
+ 
 def get_number_of_racers():
     # kuha input sa user if pila ang racers
     racers = turtle.numinput('Number of Racers', 'Enter the number of racers (2 - 10): ', minval=2, maxval=10)
     return int(racers) if racers is not None else 0
+#check if the number of racers is within the range of 2 to 10. else return 0
 
-def race(colors):
-    global game_running
-    turtles = create_turtles(colors)
-
-    # Countdown animation
-    countdown()
-
-    # Wait for a key press to start the race
-    turtle.onkey(lambda: turtle.write("Go!", align='center', font=('Arial', 36, 'normal')), 'Return')
-    turtle.listen()  
-
-
-    game_running = True  # Set the game_running  True
-
-    while game_running:
-        for racer in turtles:
-            distance = random.randrange(1, 20)
-            racer.forward(distance)
-
-            x, y = racer.pos()
-            if y >= HALF_HEIGHT - 10:
-                winner_color = colors[turtles.index(racer)]
-                congratulate_winner(winner_color)
-                draw_flower_winner()
-                game_running = False  # Set the game_running to False
-                return winner_color
+def init_turtle():
+    # Initialize the turtle graphics window
+    screen = turtle.Screen()
+    screen.setup(700, 600)
+    screen.title('Turtle Racing!')
 
 def countdown():
     # Display the countdown animation
@@ -73,6 +55,23 @@ def countdown():
         counter.write(text, align='center', font=('Arial', 36, 'normal'))
         time.sleep(1)
         counter.clear()
+def turtless(colors):
+
+    turtles = []#to store the turtle objects created in the create_turtles function
+    spacingx = 700 // (len(colors) + 1)#spacing for between each turtle
+    for index, color in enumerate(colors):
+        racer = turtle.Turtle()
+        racer.color(color)# method from turle.Turtle() to set the color of the turtle
+        racer.shape('turtle')# by default the shape is arrow shape and turtle shape
+        racer.left(90)#to set the direction of the turtle
+        racer.penup()#  to lift the pen up
+                    #to shift the position of the turtle to the left side 
+        racer.setpos(-HALF_WIDTH + (index + 1) * spacingx, -HALF_HEIGHT + 20)# responsible for positioning the turtle on the screen.
+        racer.pendown()# to put the pen down
+        turtles.append(racer)# append the racer to the list of turtles
+    countdown()# here i call the countdown 
+
+    return turtles
 
 def congratulate_winner(winner_color):
     # Display a congratulatory message to the winner
@@ -84,28 +83,24 @@ def congratulate_winner(winner_color):
     congrats_turtle.write(f"Congratulations, {winner_color} turtle! here is your flower!",
                           align='center', font=('Arial', 20, 'normal'))
     time.sleep(2)
+    
+def race(colors):
+    turtles = turtless(colors)
 
-def create_turtles(colors):
-    # Create turtle objects for each racer and set their initial positions
-    turtles = []
-    spacingx = 700 // (len(colors) + 1)
-    for i, color in enumerate(colors):
-        racer = turtle.Turtle()
-        racer.color(color)
-        racer.shape('turtle')
-        racer.left(90)
-        racer.penup()
-        racer.setpos(-HALF_WIDTH + (i + 1) * spacingx, -HALF_HEIGHT + 20)
-        racer.pendown()
-        turtles.append(racer)
+    game_running = True  # Set the game_running  True
+    while game_running:
+        for racer in turtles:
+            distance = random.randrange(1, 20)
+            racer.forward(distance)
+            _, y = racer.pos()
+            if y >= HALF_HEIGHT - 10:
+                winner_color = colors[turtles.index(racer)]
+                congratulate_winner(winner_color)
+                draw_flower_winner()
+                return winner_color
+       
 
-    return turtles
 
-def init_turtle():
-    # Initialize the turtle graphics window
-    screen = turtle.Screen()
-    screen.setup(700, 600)
-    screen.title('Turtle Racing!')
 
 
 def draw_flower_winner():
