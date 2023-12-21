@@ -16,7 +16,7 @@ def main():
     """
     racers = get_number_of_racers()
     if racers == 0:
-        turtle.bye()  # Close the graphic window if the user cancels or enters 0
+        turtle.bye()  
     else:
         init_turtle()
 
@@ -38,6 +38,7 @@ def get_number_of_racers():
 
 def init_turtle():
     # Initialize the turtle graphics window
+    global screen
     screen = turtle.Screen()
     screen.setup(700, 600)
     screen.title('Turtle Racing!')
@@ -47,7 +48,7 @@ def countdown():
     counter = turtle.Turtle()
     counter.hideturtle()
     counter.penup()
-    counter.setpos(0, 0)
+    counter.setpos(0, 0)#set the position in the center
 
     countdown_text = ["Get Ready", "Set", "Go!"]
 
@@ -62,7 +63,7 @@ def turtless(colors):
     for index, color in enumerate(colors):
         racer = turtle.Turtle()
         racer.color(color)# method from turle.Turtle() to set the color of the turtle
-        racer.shape('turtle')# by default the shape is arrow shape and turtle shape
+        racer.shape("turtle")# by default the shape is arrow shape and turtle shape
         racer.left(90)#to set the direction of the turtle
         racer.penup()#  to lift the pen up
                     #to shift the position of the turtle to the left side 
@@ -74,13 +75,13 @@ def turtless(colors):
     return turtles
 
 def congratulate_winner(winner_color):
-    # Display a congratulatory message to the winner
+    # Display a congratulatory message to the winner 
     turtle.Screen()
     congrats_turtle = turtle.Turtle()
     congrats_turtle.hideturtle()
     congrats_turtle.penup()
     congrats_turtle.setpos(0, -50)
-    congrats_turtle.write(f"Congratulations, {winner_color} turtle! here is your flower!",
+    congrats_turtle.write(f"Yahoooooo! , {winner_color} turtle! here is your flower!",
                           align='center', font=('Arial', 20, 'normal'))
     time.sleep(2)
     
@@ -92,10 +93,10 @@ def race(colors):
         for racer in turtles:
             distance = random.randrange(1, 20)
             racer.forward(distance)
-            _, y = racer.pos()
+            _,y = racer.pos()
             if y >= HALF_HEIGHT - 10:
                 winner_color = colors[turtles.index(racer)]
-                congratulate_winner(winner_color)
+                congratulate_winner(winner_color) 
                 draw_flower_winner()
                 return winner_color
        
@@ -105,6 +106,7 @@ def race(colors):
 
 def draw_flower_winner():
     # Draw a flower as a reward for the winner
+    global screen
     screen = turtle.Screen()
     for item in screen.turtles():
         item.hideturtle()
@@ -197,7 +199,32 @@ def draw_flower_winner():
     tur.right(90)
     tur.circle(200, 60)
 
+
+
+
+    # Button to restart the game
+    Buttons = turtle.Turtle()
+    Buttons.hideturtle()#Pra d makita ang animation halin sa bbaw
+    Buttons.penup()#pra d drawing samtang ga move
+    Buttons.goto(0, -260)  # Positioning of the restart
+    Buttons.write("Restart", align="center", font=("Arial", 16, "bold"))  # Updated placeholder text
+    Buttons.showturtle()#pra makita ang button 
+    Buttons.shape("square")
+    Buttons.shapesize(stretch_wid=0.4, stretch_len=3)
+    Buttons.fillcolor("white")
+    Buttons.onclick(restart_game)#gn call ang restart to restart the game 
+    
     tur.done()
+
+def restart_game(x, y):
+   
+    print("Restarting game...")
+    screen.clearscreen()  # Clears the current screen
+    main()  # Restarts the main function
+    
+
+
 
 if __name__ == "__main__":
     main()
+
