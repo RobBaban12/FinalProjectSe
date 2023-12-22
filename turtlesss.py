@@ -14,41 +14,36 @@ def main():
     and initializes the turtles, shuffles the colors, starts the race,
     and prints the winner's color.
     """
-    racers = get_number_of_racers()
-    if racers == 0:
-        turtle.bye()  
-    else:
-        init_turtle()
+    racers = get_racers()
+    turtle_screen()
 
-        random.shuffle(COLORS)
-        colors = COLORS[:racers]
+    random.shuffle(COLORS)
+    colors = COLORS[:racers]
+    winner = race(colors)
+    print("The winner is the turtle with color:", winner)
 
-        winner = race(colors)
-        print("The winner is the turtle with color:", winner)
-
-        time.sleep(2)
+    time.sleep(2)
 
 
  
-def get_number_of_racers():
+def get_racers():
     # kuha input sa user if pila ang racers
     racers = turtle.numinput('Number of Racers', 'Enter the number of racers (2 - 10): ', minval=2, maxval=10)
     return int(racers) if racers is not None else 0
 #check if the number of racers is within the range of 2 to 10. else return 0
 
-def init_turtle():
+def turtle_screen():
     # Initialize the turtle graphics window
-    global screen
     screen = turtle.Screen()
-    screen.setup(700, 600)
-    screen.title('Turtle Racing!')
+    screen.setup(700, 600)#WIDTH at 700 and 600 HEIGHT
+    screen.title('Turtle Race!')
 
 def countdown():
     # Display the countdown animation
-    counter = turtle.Turtle()
+    
+    counter = turtle #counter obj
     counter.hideturtle()
     counter.penup()
-    counter.setpos(0, 0)#set the position in the center
 
     countdown_text = ["Get Ready", "Set", "Go!"]
 
@@ -56,6 +51,7 @@ def countdown():
         counter.write(text, align='center', font=('Arial', 36, 'normal'))
         time.sleep(1)
         counter.clear()
+        
 def turtless(colors):
 
     turtles = []#to store the turtle objects created in the create_turtles function
@@ -65,12 +61,11 @@ def turtless(colors):
         racer.color(color)# method from turle.Turtle() to set the color of the turtle
         racer.shape("turtle")# by default the shape is arrow shape and turtle shape
         racer.left(90)#to set the direction of the turtle
-        racer.penup()#  to lift the pen up
+        racer.penup()#  no drawing when moving
                     #to shift the position of the turtle to the left side 
         racer.setpos(-HALF_WIDTH + (index + 1) * spacingx, -HALF_HEIGHT + 20)# responsible for positioning the turtle on the screen.
-        racer.pendown()# to put the pen down
         turtles.append(racer)# append the racer to the list of turtles
-    countdown()# here i call the countdown 
+    countdown()
 
     return turtles
 
@@ -80,9 +75,8 @@ def congratulate_winner(winner_color):
     congrats_turtle = turtle.Turtle()
     congrats_turtle.hideturtle()
     congrats_turtle.penup()
-    congrats_turtle.setpos(0, -50)
-    congrats_turtle.write(f"Yahoooooo! , {winner_color} turtle! here is your flower!",
-                          align='center', font=('Arial', 20, 'normal'))
+    congrats_turtle.write(f"Yahoooooo! {winner_color} turtle! here is your flower!",
+                          align='center', font=('Comic Sans MS', 20, 'bold'))
     time.sleep(2)
     
 def race(colors):
@@ -202,16 +196,16 @@ def draw_flower_winner():
 
 
 
-    # Button to restart the game
+    # Button obj to restart the game
     Buttons = turtle.Turtle()
     Buttons.hideturtle()#Pra d makita ang animation halin sa bbaw
     Buttons.penup()#pra d drawing samtang ga move
     Buttons.goto(0, -260)  # Positioning of the restart
     Buttons.write("Restart", align="center", font=("Arial", 16, "bold"))  # Updated placeholder text
     Buttons.showturtle()#pra makita ang button 
-    Buttons.shape("square")
-    Buttons.shapesize(stretch_wid=0.4, stretch_len=3)
-    Buttons.fillcolor("white")
+    Buttons.shape("circle") #
+    Buttons.shapesize(stretch_wid=0.4, stretch_len=1)
+    Buttons.fillcolor("gray")
     Buttons.onclick(restart_game)#gn call ang restart to restart the game 
     
     tur.done()
@@ -221,6 +215,7 @@ def restart_game(x, y):
     print("Restarting game...")
     screen.clearscreen()  # Clears the current screen
     main()  # Restarts the main function
+    
     
 
 
