@@ -101,9 +101,9 @@ def congratulate_winner(winner_color):
 
 def draw_flower_winner():
     # Draw a flower as a reward for the winner
-    global screen
-    screen = turtle.Screen()
-    for item in screen.turtles():
+    global screen #para ma access globally 
+    screen = turtle.Screen()#return the existing screen
+    for item in screen.turtles():# iterate over turtle obj
         item.hideturtle()
         item.clear()
 
