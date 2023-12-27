@@ -58,42 +58,43 @@ def turtless(colors):
     spacingx = 700 // (len(colors) + 1)#spacing for between each turtle
     for index, color in enumerate(colors):
         racer = turtle.Turtle()
-        racer.color(color)# method from turle.Turtle() to set the color of the turtle
+        racer.color(color)#  set the color of the turtle
         racer.shape("turtle")# by default the shape is arrow shape and turtle shape
         racer.left(90)#to set the direction of the turtle
         racer.penup()#  no drawing when moving
                     #to shift the position of the turtle to the left side 
+                    # By multiplying (index + 1) with spacingx, we ensure that each turtle is positioned horizontally apart from each other.
         racer.setpos(-HALF_WIDTH + (index + 1) * spacingx, -HALF_HEIGHT + 20)# responsible for positioning the turtle on the screen.
         turtles.append(racer)# append the racer to the list of turtles
     countdown()
 
     return turtles
 
-def congratulate_winner(winner_color):
-    # Display a congratulatory message to the winner 
-    turtle.Screen()
-    congrats_turtle = turtle.Turtle()
-    congrats_turtle.hideturtle()
-    congrats_turtle.penup()
-    congrats_turtle.write(f"Yahoooooo! {winner_color} turtle! here is your flower!",
-                          align='center', font=('Comic Sans MS', 20, 'bold'))
-    time.sleep(2)
+
     
 def race(colors):
-    turtles = turtless(colors)
+    turtles = turtless(colors)# to asign list turtke obj to thevariable
 
-    game_running = True  # Set the game_running  True
-    while game_running:
+    while True:
         for racer in turtles:
-            distance = random.randrange(1, 20)
-            racer.forward(distance)
-            _,y = racer.pos()
-            if y >= HALF_HEIGHT - 10:
-                winner_color = colors[turtles.index(racer)]
+            distance = random.randrange(1, 20)#posible distance px
+            racer.forward(distance)#if sin'o una pagto sa finish line
+            
+            _,y = racer.pos() #return the post of y coordinate since y is vertical , nd na need ang x
+            if y >= HALF_HEIGHT - 10: #if the tutle reached the finish line
+                winner_color = colors[turtles.index(racer)]#return the winner color
+                
                 congratulate_winner(winner_color) 
                 draw_flower_winner()
                 return winner_color
-       
+            
+def congratulate_winner(winner_color):
+    # Display a congratuoin message to the winner 
+    congrats_turtle = turtle.Turtle()
+    congrats_turtle.hideturtle()
+    congrats_turtle.write(f"Yahoooooo! {winner_color} turtle! here is your flower!",
+                          align='center', font=('Comic Sans MS', 20, 'bold'))
+    time.sleep(2)       
 
 
 
@@ -108,7 +109,7 @@ def draw_flower_winner():
 
     tur.title("Draw a Rose")
 
-    # Set initial position
+    #  initial position
     tur.penup()
     tur.left(90)
     tur.fd(200)
@@ -214,7 +215,7 @@ def restart_game(x, y):
    
     print("Restarting game...")
     screen.clearscreen()  # Clears the current screen
-    main()  # Restarts the main function
+    main()  # i call the main function to Restart
     
     
 
